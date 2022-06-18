@@ -12,7 +12,7 @@ export default defineComponent({
   emits: [],
   setup(props, { emit }) {
     const getFocus = () => {
-      const input: HTMLInputElement = document.querySelector(".input");
+      const input: HTMLInputElement = document.querySelector(".input")!;
       input.focus();
     };
     return {

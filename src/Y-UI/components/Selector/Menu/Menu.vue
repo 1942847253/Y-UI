@@ -85,7 +85,8 @@ export default defineComponent({
       });
     };
     const setItemValue = (item) => {
-      const menuList: HTMLDivElement = document.querySelector(".selector-menu");
+      const menuList: HTMLDivElement =
+        document.querySelector(".selector-menu")!;
       menuList.style.display = "none";
       emit("setItemValue", item);
     };

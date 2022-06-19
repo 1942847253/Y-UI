@@ -106,6 +106,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .selector-menu {
+  position: absolute;
+  width: 100%;
   max-height: 300px;
   display: none;
   cursor: pointer;

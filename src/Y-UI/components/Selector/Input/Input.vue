@@ -6,16 +6,20 @@
       type="text"
       :value="inputValue"
       ref="input"
+      :readonly="!isSearch"
       @input="searchOptions"
       @focus="searchOptions"
       @blur="setValue(inputValue)"
     />
-    <span class="iconfont icon-xiangxia"></span>
+    <span
+      style="transform: translateX(-50 %) rotate(-90deg)"
+      class="iconfont icon-xiangxia"
+    ></span>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance } from "vue";
+import { defineComponent, getCurrentInstance, onMounted } from "vue";
 export default defineComponent({
   name: "SelectorInput",
   props: {
@@ -26,6 +30,9 @@ export default defineComponent({
     inputValue: {
       type: String,
     },
+    isSearch: {
+      type: Boolean,
+    },
   },
   emits: ["searchOptions"],
   setup(props, { emit }) {
@@ -34,8 +41,9 @@ export default defineComponent({
       const val = event.target.value as string;
       emit("searchOptions", val);
     };
+
     const setValue = (value) => {
-      const input: any = instance.refs.input;
+      const input: any = instance!.refs.input;
       if (input.value.length > 0) {
         input.value = value;
       }
@@ -77,6 +85,9 @@ export default defineComponent({
     right: calc(10px);
     color: #c2c2c2;
     pointer-events: none;
+  }
+  .iconfont-transform {
+    transform: translateX(-50%) rotate(-90deg);
   }
 }
 </style>

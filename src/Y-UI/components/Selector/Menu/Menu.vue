@@ -1,9 +1,10 @@
 <template>
-  <div class="selector-menu">
+  <div class="selector-menu" ref="menuListRef">
     <template v-if="searchData.length > 0">
       <div
         :class="`menu-item ${searchValue === item.text ? 'menu-checked' : ''}`"
-        @click="setItemValue(item)"
+        @click.stop="setItemValue(item)"
+        @mousedown=""
         v-for="(item, index) in searchData"
         :key="index"
       >
@@ -61,10 +62,14 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    isSearch: {
+      type: Boolean,
+    },
   },
   emits: ["setItemValue"],
   setup(props, { emit }) {
     const searchData = ref<IOptionItem[]>([]);
+    const menuListRef = ref() as any;
     onMounted(() => {
       searchData.value = props.options;
     });
@@ -72,7 +77,7 @@ export default defineComponent({
     watch(
       () => props.searchValue,
       (value) => {
-        filterData(value);
+        props.isSearch && filterData(value);
       }
     );
 
@@ -85,12 +90,13 @@ export default defineComponent({
       });
     };
     const setItemValue = (item) => {
-      const menuList: HTMLDivElement =
-        document.querySelector(".selector-menu")!;
-      menuList.style.display = "none";
+      setTimeout(() => {
+        menuListRef.value.style.display = "none";
+      }, 50);
       emit("setItemValue", item);
     };
     return {
+      menuListRef,
       setItemValue,
       searchData,
     };

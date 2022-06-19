@@ -3,12 +3,14 @@
     <SelectorInput
       :placeholder="placeholder"
       :inputValue="inputValue"
+      :isSearch="isSearch"
       @searchOptions="searchOptions"
     />
     <Menu
       @setItemValue="setItemValue"
       :options="options"
       :searchValue="searchValue"
+      :isSearch="isSearch"
     />
   </div>
 </template>
@@ -34,6 +36,10 @@ export default defineComponent({
     },
     options: {
       type: Array as PropType<IOptionItem[]>,
+    },
+    isSearch: {
+      type: Boolean,
+      defualt: false,
     },
   },
   emits: ["setItemValue"],

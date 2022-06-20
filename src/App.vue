@@ -28,6 +28,11 @@ const setItemValue = (item) => {};
 <style lang="scss" scoped>
 .box {
   width: 500px;
+  height: 280px;
   margin: 150px auto;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

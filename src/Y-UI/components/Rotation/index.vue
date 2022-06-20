@@ -2,12 +2,19 @@
   <div class="rotation">
     <div class="inner">
       <slot></slot>
+      <Dot
+        :hasDot="hasDot"
+        :currentIndex="currentIndex"
+        :dotLength="picLength"
+        :dotBgColor="dotBgColor"
+        @dotClick="dotClick"
+      />
+      <Director @clickDirector="clickDirector" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { stat } from "fs";
 import {
   defineComponent,
   reactive,
@@ -16,29 +23,38 @@ import {
   onBeforeUnmount,
   onMounted,
 } from "vue";
+import Dot from "./Dot/Dot.vue";
+import Director from "./Director/Director.vue";
 
 export default defineComponent({
   name: "Rotation",
+  components: {
+    Dot,
+    Director,
+  },
   props: {
+    dotBgColor: {
+      type: String,
+    },
     autoplay: {
       type: Boolean,
-      defualut: true,
+      default: true,
     },
     duration: {
       type: Number,
-      defualut: 3000,
+      default: 3000,
     },
     initial: {
       type: Number,
-      defualut: 0,
+      default: 0,
     },
     hasDot: {
       type: Boolean,
-      defualut: true,
+      default: true,
     },
     hasDirector: {
       type: Boolean,
-      defualut: true,
+      default: true,
     },
   },
   emits: [],
@@ -51,7 +67,6 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      console.log(instance!.slots.default!()[0].children!.length);
       state.picLength = instance!.slots.default!()[0].children!
         .length as number;
       autoplay();
@@ -88,7 +103,21 @@ export default defineComponent({
           break;
       }
     };
+
+    const dotClick = (index: number) => {
+      clearInterval(timer!);
+      state.currentIndex = index;
+      autoplay();
+    };
+
+    const clickDirector = (dir: "next" | "pre") => {
+      clearInterval(timer!);
+      setPicIndex(dir);
+      autoplay();
+    };
     return {
+      dotClick,
+      clickDirector,
       ...toRefs(state),
     };
   },
@@ -99,11 +128,10 @@ export default defineComponent({
 .rotation {
   width: 100%;
   height: 100%;
-
   .inner {
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: calc(100%);
     overflow: hidden;
   }
 }

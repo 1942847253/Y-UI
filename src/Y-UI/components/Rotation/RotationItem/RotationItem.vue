@@ -31,12 +31,9 @@ export default defineComponent({
     watch(
       () => instance.parent.ctx.currentIndex,
       (val) => {
-        console.log(val);
         state.currentIndex = val;
       }
     );
-    console.log(state);
-
     return {
       ...toRefs(state),
     };
@@ -51,11 +48,10 @@ export default defineComponent({
   left: 0;
   width: 100%;
   height: 100%;
-  img {
-    width: 100%;
-  }
 }
-
+img {
+  width: 100%;
+}
 .v-enter-active,
 .v-leave-active {
   transition: all 0.4s ease-out;

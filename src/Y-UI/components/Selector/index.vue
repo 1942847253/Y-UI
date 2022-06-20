@@ -39,7 +39,7 @@ export default defineComponent({
     },
     isSearch: {
       type: Boolean,
-      defualt: false,
+      default: false,
     },
   },
   emits: ["setItemValue"],

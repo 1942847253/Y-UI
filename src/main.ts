@@ -3,5 +3,5 @@ import App from './App.vue'
 import YUI from './Y-UI/index'
 
 const app = createApp(App);
-YUI.install(app);
+app.use(YUI);
 app.mount('#app');

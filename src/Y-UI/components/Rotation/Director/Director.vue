@@ -42,6 +42,7 @@ export default defineComponent({
       color: #fff;
       font-size: 17px;
       font-weight: 550;
+      user-select: none;
     }
   }
   .director-left {

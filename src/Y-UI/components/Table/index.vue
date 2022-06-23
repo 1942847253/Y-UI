@@ -1,5 +1,5 @@
 <template>
-  <table border="1" class="y-table">
+  <table class="y-table">
     <thead>
       <tr>
         <th v-for="info of props.tableColumn" :key="info.key">
@@ -44,10 +44,10 @@ const state = reactive({
   text: "",
 });
 const setValue = (value) => {
-  console.log(value);
-  // emit("editData");
+  state.value = value;
+  emit("editData", state);
 };
-const showEditInput = (event: Event, key, index, text) => {
+const showEditInput = (event: Event, key, index) => {
   editInputApp && removeEditInputApp(editInputApp);
   if (!checkEditbale(key)) return;
   const target = event.target as any;
@@ -61,17 +61,17 @@ const showEditInput = (event: Event, key, index, text) => {
     target.appendChild(oFrag);
     target.querySelector(".edit-input").select();
   }
-  setData({ index, key, text });
+  setData({ index, key });
 };
 const removeEditInputApp = (editInputApp) => {
   editInputApp && editInputApp.unmount();
 };
 
-const setData = ({ index, key, value = "", text = "" }) => {
+const setData = ({ index, key, text = "" }) => {
+  console.log(key);
+  state.text = props.tableColumn.find((item) => item.key === key).text;
   state.key = key;
   state.index = index;
-  state.value = value;
-  state.text = text;
 };
 
 const checkEditbale = (key: number) => {
@@ -85,13 +85,28 @@ window.addEventListener("click", () => removeEditInputApp(editInputApp), false);
 .y-table {
   width: 100%;
   border-collapse: collapse;
+  table {
+    border: none;
+  }
+  th {
+    color: #909399;
+    font-size: 14px;
+  }
   tr {
+    color: #606266;
     height: 44px;
+    border: none;
+    border-bottom: 1px solid #ebeef5;
+    font-size: 13px;
+
     td {
       position: relative;
       text-align: center;
       cursor: pointer;
     }
+  }
+  tr:hover {
+    background-color: #f6f7fb;
   }
 }
 </style>

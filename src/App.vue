@@ -73,7 +73,7 @@ const tableData = ref({
 });
 
 const editData = ({ index, key, value, text }) => {
-  console.log(index, key, value, text);
+  tableData.value.tBody[index][key] = value;
 };
 </script>
 

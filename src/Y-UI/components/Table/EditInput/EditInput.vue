@@ -28,6 +28,7 @@ const onInput = (event) => {
 };
 
 const onBlur = () => {
+  if (inputValue.value.trim().length === 0) return;
   props.setValue(inputValue.value);
 };
 

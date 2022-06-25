@@ -9,19 +9,11 @@
     </thead>
     <tbody>
       <tr v-for="(item, index) of props.tableData" :key="item.id">
-        <td
-          :style="{ width: getWidth(key) ? getWidth(key) + 'px' : '' }"
-          v-for="(value, key) in item"
-          :key="key"
-          @click.stop="showEditInput($event, key, index)"
-        >
-          <slot
-            name="table"
-            :tableColumn="getTargetColumn(key)"
-            :tableData="item"
-          >
-            {{ !editInputApp && value }}</slot
-          >
+        <td v-for="(value, key) in item" :key="key" @click.stop="showEditInput($event, key, index)">
+          <div class="td-content" :style="{ width: getWidth(key) ? getWidth(key) + 'px' : '' }">
+            <slot name="table" :tableColumn="getTargetColumn(key)" :tableData="item">
+              {{ !editInputApp && value }}</slot>
+          </div>
         </td>
         <td>
           <slot name="operation" :item="item" :index="index"></slot>
@@ -33,8 +25,14 @@
 
 <script lang="ts" setup>
 import { App, createApp, reactive, ref } from "vue";
+import { editTdStat, initTdStats } from "./baseData";
 import EditInput from "./EditInput/EditInput.vue";
-let editInputApp: null | App<Element> = null;
+
+let editInputApp: null | App<Element> = null; // 要编辑的td中的input元素
+let target = null as any; // 要编辑的 td
+let editRowTds = null as any; // 当前列的所有 td
+window.addEventListener("click", () => removeEditInputApp(editInputApp), false);
+
 const props = defineProps({
   tableData: {
     type: Array as any,
@@ -51,6 +49,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["editData"]);
+
+// 编辑 td 后要emit出去的数据
 const state = reactive({
   key: "",
   value: "",
@@ -58,30 +58,44 @@ const state = reactive({
   text: "",
 });
 
+// 用于指定th表头宽度
 const getWidth = (key) => {
   return props.tableColumn.find((item) => item.key === key).width || null;
 };
+
 const setValue = (value) => {
   state.value = value;
   emit("editData", state);
 };
+
+// 显示编辑
 const showEditInput = (event: Event, key, index) => {
   editInputApp && removeEditInputApp(editInputApp);
   if (!checkEditbale(key)) return;
-  const target = event.target as any;
+  target = event.target as any;
+  editRowTds = target.parentNode.parentNode.querySelectorAll(".td-content");
   const oFrag = document.createDocumentFragment() as any;
   editInputApp = createApp(EditInput, {
     value: target.innerText as string,
     setValue,
   });
   if (editInputApp) {
+    editRowTds.forEach((td) => {
+      editTdStat(td);
+    });
     editInputApp.mount(oFrag);
     target.appendChild(oFrag);
     target.querySelector(".edit-input").select();
   }
   setData({ index, key });
 };
+
+// 移除编辑框
 const removeEditInputApp = (editInputApp) => {
+  const tds = target.parentNode.parentNode.querySelectorAll(".td-content");
+  editRowTds.forEach((td) => {
+    initTdStats(td);
+  });
   editInputApp && editInputApp.unmount();
 };
 
@@ -97,42 +111,12 @@ const checkEditbale = (key: number) => {
   return editable;
 };
 
+// 获取当前列的数据
 const getTargetColumn = (key) => {
   return props.tableColumn.find((item) => item.key === key);
 };
-window.addEventListener("click", () => removeEditInputApp(editInputApp), false);
 </script>
 
 <style lang="scss" scoped>
-.y-table {
-  border-collapse: collapse;
-  tr {
-    color: #606266;
-    height: 44px;
-    border: none;
-    border-bottom: 1px solid #ebeef5;
-
-    td {
-      position: relative;
-      text-align: left;
-      padding: 10px 10px;
-      font-size: 13px;
-      cursor: pointer;
-      height: 100%;
-    }
-  }
-  thead {
-    th {
-      color: #909399;
-      font-size: 14px;
-      text-align: left;
-      padding: 0 8px;
-    }
-  }
-  tbody {
-    tr:hover {
-      background-color: #f6f7fb;
-    }
-  }
-}
+@import "./index.scss";
 </style>

@@ -104,26 +104,19 @@ const deleteItem = (id) => {
       @editData="editData"
     >
       <template #table="{ tableColumn, tableData }">
-        <button v-if="tableColumn.key === 'name'">{{ tableData.name }}</button>
+        <img
+          v-if="tableColumn.key === 'name'"
+          width="70"
+          height="70"
+          src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp"
+          alt=""
+        />
       </template>
       <template #operation="{ item, index }">
-        <button>编辑</button>&nbsp;
-        <button @click="deleteItem(item.id)">删除</button>
+        <button class="button1">编辑</button>&nbsp;
+        <button class="button2" @click="deleteItem(item.id)">删除</button>
       </template>
     </Table>
-  </div>
-  <div class="box">
-    <Rotation
-      :autoplay="true"
-      :duration="3000"
-      :initial="2"
-      :hasDot="true"
-      :hasDirector="true"
-    >
-      <Rotation-Item v-for="(item, index) in picList" :key="index">
-        <img :src="item.path" alt="" />
-      </Rotation-Item>
-    </Rotation>
   </div>
 </template>
 
@@ -136,5 +129,21 @@ const deleteItem = (id) => {
     width: 100%;
     height: 100%;
   }
+}
+.button1 {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 2px;
+  background-color: #ff4d4f;
+  color: #ffff;
+  cursor: pointer;
+}
+.button2 {
+  border: none;
+  padding: 5px 10px;
+  border-radius: 2px;
+  background-color: #409eff;
+  color: #ffff;
+  cursor: pointer;
 }
 </style>

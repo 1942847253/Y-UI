@@ -9,8 +9,9 @@
     </thead>
     <tbody>
       <tr v-for="(item, index) of props.tableData" :key="item.id">
-        <td v-for="(value, key) in item" :key="key" @click.stop="showEditInput($event, key, index)">
-          <div class="td-content" :style="{ width: getWidth(key) ? getWidth(key) + 'px' : '' }">
+        <td v-for="(value, key) in item" :key="key">
+          <div class="td-content" :style="{ width: getWidth(key) ? getWidth(key) + 'px' : '' }"
+            @click.stop="showEditInput($event, key, index)">
             <slot name="table" :tableColumn="getTargetColumn(key)" :tableData="item">
               {{ !editInputApp && value }}</slot>
           </div>
@@ -70,9 +71,12 @@ const setValue = (value) => {
 
 // 显示编辑
 const showEditInput = (event: Event, key, index) => {
+  event.stopPropagation();
   editInputApp && removeEditInputApp(editInputApp);
   if (!checkEditbale(key)) return;
   target = event.target as any;
+  console.log(target);
+
   editRowTds = target.parentNode.parentNode.querySelectorAll(".td-content");
   const oFrag = document.createDocumentFragment() as any;
   editInputApp = createApp(EditInput, {

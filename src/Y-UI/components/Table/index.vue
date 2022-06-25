@@ -1,5 +1,5 @@
 <template>
-  <table class="y-table">
+  <table class="y-table" :style="`width:${props.width}`">
     <thead>
       <tr>
         <th v-for="info of props.tableColumn" :key="info.key">
@@ -10,11 +10,21 @@
     <tbody>
       <tr v-for="(item, index) of props.tableData" :key="item.id">
         <td
+          :style="{ width: getWidth(key) ? getWidth(key) + 'px' : '' }"
           v-for="(value, key) in item"
           :key="key"
           @click.stop="showEditInput($event, key, index)"
         >
-          {{ !editInputApp && value }}
+          <slot
+            name="table"
+            :tableColumn="getTargetColumn(key)"
+            :tableData="item"
+          >
+            {{ !editInputApp && value }}</slot
+          >
+        </td>
+        <td>
+          <slot name="operation" :item="item" :index="index"></slot>
         </td>
       </tr>
     </tbody>
@@ -22,8 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { stat } from "fs";
-import { App, createApp, reactive } from "vue";
+import { App, createApp, reactive, ref } from "vue";
 import EditInput from "./EditInput/EditInput.vue";
 let editInputApp: null | App<Element> = null;
 const props = defineProps({
@@ -35,7 +44,12 @@ const props = defineProps({
     type: Array as any,
     default: () => [],
   },
+  width: {
+    tpye: String,
+    default: "100%",
+  },
 });
+
 const emit = defineEmits(["editData"]);
 const state = reactive({
   key: "",
@@ -43,6 +57,10 @@ const state = reactive({
   index: -1,
   text: "",
 });
+
+const getWidth = (key) => {
+  return props.tableColumn.find((item) => item.key === key).width || null;
+};
 const setValue = (value) => {
   state.value = value;
   emit("editData", state);
@@ -78,35 +96,43 @@ const checkEditbale = (key: number) => {
   const { editable } = props.tableColumn.find((item) => item.key === key);
   return editable;
 };
+
+const getTargetColumn = (key) => {
+  return props.tableColumn.find((item) => item.key === key);
+};
 window.addEventListener("click", () => removeEditInputApp(editInputApp), false);
 </script>
 
 <style lang="scss" scoped>
 .y-table {
-  width: 100%;
   border-collapse: collapse;
-  table {
-    border: none;
-  }
-  th {
-    color: #909399;
-    font-size: 14px;
-  }
   tr {
     color: #606266;
     height: 44px;
     border: none;
     border-bottom: 1px solid #ebeef5;
-    font-size: 13px;
 
     td {
       position: relative;
-      text-align: center;
+      text-align: left;
+      padding: 10px 10px;
+      font-size: 13px;
       cursor: pointer;
+      height: 100%;
     }
   }
-  tr:hover {
-    background-color: #f6f7fb;
+  thead {
+    th {
+      color: #909399;
+      font-size: 14px;
+      text-align: left;
+      padding: 0 8px;
+    }
+  }
+  tbody {
+    tr:hover {
+      background-color: #f6f7fb;
+    }
   }
 }
 </style>

@@ -8,32 +8,40 @@ const tableData = ref({
     {
       key: "id",
       text: "学号",
-      editable: false,
+      width: 100,
     },
     {
       key: "name",
       text: "姓名",
-      editable: false,
+      width: 100,
     },
     {
       key: "age",
       text: "年龄",
-      editable: false,
+      width: 100,
     },
     {
       key: "chinese",
       text: "语文",
       editable: true,
+      width: 100,
     },
     {
       key: "math",
       text: "数学",
       editable: true,
+      width: 100,
     },
     {
       key: "english",
       text: "英语",
       editable: true,
+      width: 100,
+    },
+    {
+      key: "operation",
+      text: "操作",
+      width: 100,
     },
   ],
   tBody: [
@@ -75,6 +83,12 @@ const tableData = ref({
 const editData = ({ index, key, value, text }) => {
   tableData.value.tBody[index][key] = value;
 };
+
+const deleteItem = (id) => {
+  tableData.value.tBody = tableData.value.tBody.filter(
+    (item) => item.id !== id
+  );
+};
 </script>
 
 <template>
@@ -83,11 +97,21 @@ const editData = ({ index, key, value, text }) => {
     :options="options"
     @setItemValue="setItemValue"
   />
-  <Table
-    :tableData="tableData.tBody"
-    :tableColumn="tableData.tHead"
-    @editData="editData"
-  ></Table>
+  <div style="width: 54%">
+    <Table
+      :tableData="tableData.tBody"
+      :tableColumn="tableData.tHead"
+      @editData="editData"
+    >
+      <template #table="{ tableColumn, tableData }">
+        <button v-if="tableColumn.key === 'name'">{{ tableData.name }}</button>
+      </template>
+      <template #operation="{ item, index }">
+        <button>编辑</button>&nbsp;
+        <button @click="deleteItem(item.id)">删除</button>
+      </template>
+    </Table>
+  </div>
   <div class="box">
     <Rotation
       :autoplay="true"

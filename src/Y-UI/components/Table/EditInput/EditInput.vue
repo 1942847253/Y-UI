@@ -41,12 +41,15 @@ const onClick = (event) => {
 .edit-input {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  margin: auto;
+
   height: 100%;
   box-sizing: border-box;
-  border: 1px solid orange;
-  text-align: center;
+  border: 1px solid #409eff;
+  text-align: left;
   outline: none;
 }
 </style>

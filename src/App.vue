@@ -1,8 +1,52 @@
+<template>
+  <y-selector placeholder="请选择书籍" isSearch :options="options" @setItemValue="setItemValue" />
+
+  <div style="width: 60%">
+    <y-table :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+      <template #table="{ tableColumn, tableData }">
+        <img v-if="tableColumn.key === 'name'" width="70" height="70"
+          src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp" alt="" />
+
+      </template>
+      <template #operation="{ item, index }">
+        <y-button type="primary">编辑</y-button>&nbsp;
+        <y-button type="danger" @click="deleteItem(item.id)">删除</y-button>
+      </template>
+    </y-table>
+    <y-tag v-for="(item, index) in testList" :key="item.id" type="warning" :closeable="true"
+      @closeEvent="closeTag(index)">{{
+          item.name
+      }}</y-tag>
+
+    <y-button>确定</y-button>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { ref } from "vue";
 import { options, picList } from "./baseData/selector";
 
-const setItemValue = (item) => {};
+const testList = ref([
+  {
+    id: 1,
+    name: 'yjj'
+  },
+  {
+    id: 2,
+    name: 'big龙'
+  },
+  {
+    id: 3,
+    name: '嘿毛'
+  }
+])
+
+const closeTag = (index) => {
+  testList.value.splice(index, 1)
+  console.log(testList.value);
+}
+
+const setItemValue = (item) => { };
 const tableData = ref({
   tHead: [
     {
@@ -91,59 +135,15 @@ const deleteItem = (id) => {
 };
 </script>
 
-<template>
-  <Selector
-    placeholder="请选择书籍"
-    :options="options"
-    @setItemValue="setItemValue"
-  />
-  <div style="width: 54%">
-    <Table
-      :tableData="tableData.tBody"
-      :tableColumn="tableData.tHead"
-      @editData="editData"
-    >
-      <template #table="{ tableColumn, tableData }">
-        <img
-          v-if="tableColumn.key === 'name'"
-          width="70"
-          height="70"
-          src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp"
-          alt=""
-        />
-      </template>
-      <template #operation="{ item, index }">
-        <button class="button1">编辑</button>&nbsp;
-        <button class="button2" @click="deleteItem(item.id)">删除</button>
-      </template>
-    </Table>
-  </div>
-</template>
-
 <style lang="scss" scoped>
 .box {
   width: 500px;
   height: 280px;
   margin: 150px auto;
+
   img {
     width: 100%;
     height: 100%;
   }
-}
-.button1 {
-  border: none;
-  padding: 5px 10px;
-  border-radius: 2px;
-  background-color: #ff4d4f;
-  color: #ffff;
-  cursor: pointer;
-}
-.button2 {
-  border: none;
-  padding: 5px 10px;
-  border-radius: 2px;
-  background-color: #409eff;
-  color: #ffff;
-  cursor: pointer;
 }
 </style>

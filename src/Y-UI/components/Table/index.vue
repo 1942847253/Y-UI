@@ -75,8 +75,6 @@ const showEditInput = (event: Event, key, index) => {
   editInputApp && removeEditInputApp(editInputApp);
   if (!checkEditbale(key)) return;
   target = event.target as any;
-  console.log(target);
-
   editRowTds = target.parentNode.parentNode.querySelectorAll(".td-content");
   const oFrag = document.createDocumentFragment() as any;
   editInputApp = createApp(EditInput, {
@@ -96,15 +94,14 @@ const showEditInput = (event: Event, key, index) => {
 
 // 移除编辑框
 const removeEditInputApp = (editInputApp) => {
-  const tds = target.parentNode.parentNode.querySelectorAll(".td-content");
+  if (!editRowTds) return;
   editRowTds.forEach((td) => {
     initTdStats(td);
   });
   editInputApp && editInputApp.unmount();
 };
 
-const setData = ({ index, key, text = "" }) => {
-  console.log(key);
+const setData = ({ index, key }) => {
   state.text = props.tableColumn.find((item) => item.key === key).text;
   state.key = key;
   state.index = index;

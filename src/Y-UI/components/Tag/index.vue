@@ -39,7 +39,6 @@ const getTagType = (type) => {
         case 'warning':
             return 'tag-warning'
         default:
-            console.log('sb');
             return 'tag-default'
     }
 }

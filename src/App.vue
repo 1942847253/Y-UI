@@ -1,25 +1,40 @@
 <template>
   <y-selector placeholder="请选择书籍" isSearch :options="options" @setItemValue="setItemValue" />
 
-  <div style="width: 60%">
+  <div>
     <y-table :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
       <template #table="{ tableColumn, tableData }">
         <img v-if="tableColumn.key === 'name'" width="70" height="70"
           src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp" alt="" />
-
+        <y-tag type="success" v-if="tableColumn.key === 'age  '">{{
+            tableData.age
+        }}</y-tag>
       </template>
       <template #operation="{ item, index }">
-        <y-button type="primary">编辑</y-button>&nbsp;
-        <y-button type="danger" @click="deleteItem(item.id)">删除</y-button>
+        <y-button type="success">成功</y-button>
+        <y-button type="primary">添加 </y-button>
+        <y-button type="danger" :disabled="false" @click="deleteItem(item.id)">删除</y-button>
+        <y-button type="info">编辑</y-button>
+        <y-button type="warning">提醒</y-button>
+        <y-button :disabled="true" t>锁定</y-button>
+        <y-button>确定</y-button>
+
+
       </template>
     </y-table>
     <y-tag v-for="(item, index) in testList" :key="item.id" type="warning" :closeable="true"
       @closeEvent="closeTag(index)">{{
           item.name
       }}</y-tag>
-
-    <y-button>确定</y-button>
   </div>
+  <div class="box">
+    <y-rotation :autoplay="true" :duration="3000" :initial="2" :hasDot="true" :hasDirector="true">
+      <y-rotation-item v-for="(item, index) in picList" :key="index">
+        <img :src="item.path" alt="" />
+      </y-rotation-item>
+    </y-rotation>
+  </div>
+
 </template>
 
 <script setup lang="ts">
@@ -139,7 +154,7 @@ const deleteItem = (id) => {
 .box {
   width: 500px;
   height: 280px;
-  margin: 150px auto;
+  margin: 1 0px auto;
 
   img {
     width: 100%;

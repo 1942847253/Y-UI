@@ -2,13 +2,8 @@
   <div class="rotation">
     <div class="inner">
       <slot></slot>
-      <Dot
-        :hasDot="hasDot"
-        :currentIndex="currentIndex"
-        :dotLength="picLength"
-        :dotBgColor="dotBgColor"
-        @dotClick="dotClick"
-      />
+      <Dot :hasDot="hasDot" :currentIndex="currentIndex" :dotLength="picLength" :dotBgColor="dotBgColor"
+        @dotClick="dotClick" />
       <Director @clickDirector="clickDirector" />
     </div>
   </div>
@@ -59,7 +54,7 @@ export default defineComponent({
   },
   emits: [],
   setup(props, { emit }) {
-    let timer: null | NodeJS.Timer = null;
+    let timer: null | any = null;
     const instance = getCurrentInstance();
     const state = reactive({
       currentIndex: props.initial,
@@ -73,7 +68,7 @@ export default defineComponent({
     });
 
     onBeforeUnmount(() => {
-      clearInterval(timer as NodeJS.Timer);
+      clearInterval(timer as any);
       timer = null;
     });
 
@@ -128,6 +123,7 @@ export default defineComponent({
 .rotation {
   width: 100%;
   height: 100%;
+
   .inner {
     position: relative;
     width: 100%;

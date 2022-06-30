@@ -39,8 +39,6 @@ const getButtonType = (type) => {
     }
 }
 
-console.log(props.disabled);
-
 
 const getButtonSize = (size) => {
     switch (size) {
@@ -181,7 +179,6 @@ button {
 }
 
 .size-small {
-
     padding: 2px 8px;
     font-size: 12px;
 }

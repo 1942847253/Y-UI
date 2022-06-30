@@ -1,13 +1,13 @@
 <template>
-  <y-selector placeholder="请选择书籍" isSearch :options="options" @setItemValue="setItemValue" />
-
+  <!-- <y-selector placeholder="请选择书籍" isSearch :options="options" @setItemValue="setItemValue" /> -->
+  <y-switch></y-switch>
   <div>
     <y-table :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
       <template #table="{ tableColumn, tableData }">
         <img v-if="tableColumn.key === 'name'" width="70" height="70"
           src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp" alt="" />
-        <y-tag type="success" v-if="tableColumn.key === 'age  '">{{
-            tableData.age
+        <y-tag type="success" v-if="tableColumn.key === 'age'">{{
+            tableData.age + ' 岁'
         }}</y-tag>
       </template>
       <template #operation="{ item, index }">
@@ -22,8 +22,9 @@
 
       </template>
     </y-table>
-    <y-tag v-for="(item, index) in testList" :key="item.id" type="warning" :closeable="true"
-      @closeEvent="closeTag(index)">{{
+    <y-tag v-for="(item, index) in testList" :key="item.id" type="success" :closeable="true"
+      @closeEvent="closeTag(index)">
+      {{
           item.name
       }}</y-tag>
   </div>
@@ -38,8 +39,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { options, picList } from "./baseData/selector";
+
+const checked = ref(false)
 
 const testList = ref([
   {
@@ -58,7 +61,6 @@ const testList = ref([
 
 const closeTag = (index) => {
   testList.value.splice(index, 1)
-  console.log(testList.value);
 }
 
 const setItemValue = (item) => { };
@@ -154,7 +156,7 @@ const deleteItem = (id) => {
 .box {
   width: 500px;
   height: 280px;
-  margin: 1 0px auto;
+  margin: 10px auto;
 
   img {
     width: 100%;

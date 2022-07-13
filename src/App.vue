@@ -2,68 +2,122 @@
   <!-- <y-selector placeholder="请选择书籍" isSearch :options="options" @setItemValue="setItemValue" /> -->
   <y-switch></y-switch>
   <div>
-    <y-table :tableData="tableData.tBody" :tableColumn="tableData.tHead" @editData="editData">
+    <y-table
+      :tableData="tableData.tBody"
+      :tableColumn="tableData.tHead"
+      @editData="editData"
+    >
       <template #table="{ tableColumn, tableData }">
-        <img v-if="tableColumn.key === 'name'" width="70" height="70"
-          src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp" alt="" />
+        <img
+          v-if="tableColumn.key === 'name'"
+          width="70"
+          height="70"
+          src="https://s3m4.fenxi.com/galileo/85c6b2e7b4b94eaf3d9bc0373b5f5f05.gif_.webp"
+          alt=""
+        />
         <y-tag type="success" v-if="tableColumn.key === 'age'">{{
-            tableData.age + ' 岁'
+          tableData.age + " 岁"
         }}</y-tag>
       </template>
       <template #operation="{ item, index }">
         <y-button type="success">成功</y-button>
         <y-button type="primary">添加 </y-button>
-        <y-button type="danger" :disabled="false" @click="deleteItem(item.id)">删除</y-button>
+        <y-button type="danger" :disabled="false" @click="deleteItem(item.id)"
+          >删除</y-button
+        >
         <y-button type="info">编辑</y-button>
         <y-button type="warning">提醒</y-button>
         <y-button :disabled="true" t>锁定</y-button>
         <y-button>确定</y-button>
-
-
       </template>
     </y-table>
-    <y-tag v-for="(item, index) in testList" :key="item.id" type="success" :closeable="true"
-      @closeEvent="closeTag(index)">
-      {{
-          item.name
-      }}</y-tag>
+    <y-tag
+      v-for="(item, index) in testList"
+      :key="item.id"
+      type="success"
+      :closeable="true"
+      @closeEvent="closeTag(index)"
+    >
+      {{ item.name }}</y-tag
+    >
   </div>
   <div class="box">
-    <y-rotation :autoplay="true" :duration="3000" :initial="2" :hasDot="true" :hasDirector="true">
+    <y-rotation
+      :autoplay="true"
+      :duration="3000"
+      :initial="2"
+      :hasDot="true"
+      :hasDirector="true"
+    >
       <y-rotation-item v-for="(item, index) in picList" :key="index">
         <img :src="item.path" alt="" />
       </y-rotation-item>
     </y-rotation>
   </div>
-
+  <y-radio-group
+    v-model="value1"
+    :options="radioList"
+    @onChange="onChange"
+  ></y-radio-group>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { options, picList } from "./baseData/selector";
 
-const checked = ref(false)
-
+onMounted(() => {});
+const checked = ref(false);
+const value1 = ref(2);
 const testList = ref([
   {
     id: 1,
-    name: 'yjj'
+    name: "yjj",
   },
   {
     id: 2,
-    name: 'big龙'
+    name: "big龙",
   },
   {
     id: 3,
-    name: '嘿毛'
+    name: "嘿毛",
+  },
+]);
+
+const radioList = ref([
+  {
+    label: "yjj",
+    value: 1,
+  },
+  {
+    label: "big龍",
+    value: 2,
+  },
+  {
+    label: "嘿毛",
+    value: 3,
+  },
+]);
+
+watch(
+  () => value1.value,
+  () => {
+    console.log(value1.value);
   }
-])
+);
+
+const onChange = (item) => {
+  console.log(item);
+};
 
 const closeTag = (index) => {
-  testList.value.splice(index, 1)
-}
+  testList.value.splice(index, 1);
+};
 
-const setItemValue = (item) => { };
+const eventTest = () => {
+  console.log(testList.value[1].name);
+};
+
+const setItemValue = (item) => {};
 const tableData = ref({
   tHead: [
     {
@@ -146,9 +200,7 @@ const editData = ({ index, key, value, text }) => {
 };
 
 const deleteItem = (id) => {
-  tableData.value.tBody = tableData.value.tBody.filter(
-    (item) => item.id !== id
-  );
+  tableData.value.tBody = tableData.value.tBody.filter((item) => item.id !== id);
 };
 </script>
 

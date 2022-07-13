@@ -10,14 +10,18 @@
     <tbody>
       <tr v-for="(item, index) of props.tableData" :key="item.id">
         <td v-for="(value, key) in item" :key="key">
-          <div class="td-content" :style="{ width: getWidth(key) ? getWidth(key) + 'px' : '' }"
-            @click.stop="showEditInput($event, key, index)">
+          <div
+            class="td-content"
+            :style="{ width: getWidth(key) ? getWidth(key) + 'px' : '' }"
+            @click.stop="showEditInput($event, key, index)"
+          >
             <slot name="table" :tableColumn="getTargetColumn(key)" :tableData="item">
-              {{ !editInputApp && value }}</slot>
+              {{ !editInputApp && value }}</slot
+            >
           </div>
         </td>
         <td>
-          <slot name="operation" :item="item" :index="index"></slot>
+          <slot name="operation" :item="item" :index="index">无</slot>
         </td>
       </tr>
     </tbody>

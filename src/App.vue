@@ -1,5 +1,5 @@
 <template>
-  <!-- <y-selector placeholder="请选择书籍" isSearch :options="options" @setItemValue="setItemValue" /> -->
+  <y-selector placeholder="请选择书籍" :options="options" @setItemValue="setItemValue" />
   <y-switch></y-switch>
   <div>
     <y-table
@@ -31,6 +31,7 @@
         <y-button>确定</y-button>
       </template>
     </y-table>
+    <y-checkbox v-model="checked">萨嘎</y-checkbox>
     <y-tag
       v-for="(item, index) in testList"
       :key="item.id"
@@ -54,11 +55,8 @@
       </y-rotation-item>
     </y-rotation>
   </div>
-  <y-radio-group
-    v-model="value1"
-    :options="radioList"
-    @onChange="onChange"
-  ></y-radio-group>
+  <y-radio-group v-model="value1" :options="radioList" @change="onChange"></y-radio-group>
+  <y-checkbox-group v-model="value2" :options="radioList" />
 </template>
 
 <script setup lang="ts">
@@ -66,8 +64,9 @@ import { ref, watch, onMounted } from "vue";
 import { options, picList } from "./baseData/selector";
 
 onMounted(() => {});
-const checked = ref(false);
+const checked = ref(true);
 const value1 = ref(2);
+const value2 = ref([1, 2]);
 const testList = ref([
   {
     id: 1,
@@ -85,7 +84,7 @@ const testList = ref([
 
 const radioList = ref([
   {
-    label: "yjj",
+    label: "杨俊杰",
     value: 1,
   },
   {
@@ -102,6 +101,20 @@ watch(
   () => value1.value,
   () => {
     console.log(value1.value);
+  }
+);
+
+watch(
+  () => checked.value,
+  () => {
+    console.log(checked.value);
+  }
+);
+
+watch(
+  () => value2.value,
+  () => {
+    console.log(value2.value);
   }
 );
 

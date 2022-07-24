@@ -7,14 +7,15 @@
       :id="valueSlot"
       :checked="checked"
     />
-    <label :for="valueSlot">
+
+    <div @click="changeChecked" :class="`label ${checked && 'checked'}`">
       <slot></slot>
-    </label>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, onMounted, ref } from "vue";
+import { defineComponent, getCurrentInstance, onMounted, ref, watch } from "vue";
 
 export default defineComponent({
   props: {
@@ -34,9 +35,23 @@ export default defineComponent({
       valueSlot.value = instance.slots.default()[0].children as string;
     });
 
+    watch(
+      () => props.modelValue,
+      () => {
+        checked.value = props.modelValue === props.value ? true : false;
+      }
+    );
+
+    const changeChecked = () => {
+      if (!checked.value) {
+        checked.value = true;
+      }
+    };
+
     return {
       checked,
       valueSlot,
+      changeChecked,
     };
   },
 });
@@ -45,20 +60,16 @@ export default defineComponent({
 <style lang="scss" scoped>
 .y-radio-content {
   display: flex;
+  margin-right: 7px;
   cursor: pointer;
-}
-.label {
-  line-height: 20px;
-  display: inline-block;
-  margin-left: 5px;
-  margin-right: 15px;
-  color: #777;
-}
-label {
-  padding-left: 5px;
-  font-size: 15px;
-  margin-right: 10px;
-  cursor: pointer;
+  .checked {
+    color: #2a6ef8;
+  }
+  .label {
+    margin-left: 3px;
+    font-size: 14px;
+    margin-top: 1px;
+  }
 }
 
 .radio_type {
@@ -66,6 +77,7 @@ label {
   height: 15px;
   appearance: none;
   position: relative;
+
   transition: all 0.3s ease-out;
   cursor: pointer;
 }

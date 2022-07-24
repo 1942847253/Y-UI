@@ -25,11 +25,11 @@ export default defineComponent({
     },
   },
   components: {},
-  emits: ["update:modelValue", "onChange"],
+  emits: ["update:modelValue", "change"],
   setup(props, { emit }) {
     const onChange = (item) => {
       emit("update:modelValue", item.value);
-      emit("onChange", item);
+      emit("change", item);
     };
     return {
       onChange,
@@ -41,5 +41,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .y-radio-group {
   display: flex;
+  margin-left: -2px;
 }
 </style>

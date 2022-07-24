@@ -6,8 +6,9 @@ import YTag from './components/Tag/index.vue'
 import YButton from './components/Button/index.vue'
 import YSwitch from './components/Switch/index.vue'
 import YRadio from './components/Radio/index.vue'
-import YRadioGroup from './components/Radio/ReidoGroup/ReidoGroup.vue'
-
+import YRadioGroup from './components/Radio/RadioGroup/RadioGroup.vue'
+import YCheckbox from './components/CheckBoxGroup/CheckBox/CheckBox.vue'
+import YCheckboxGroup from './components/CheckBoxGroup/CheckBoxGroup.vue';
 import { App } from 'vue'
 
 const components = {
@@ -20,6 +21,8 @@ const components = {
     YSwitch,
     YRadio,
     YRadioGroup,
+    YCheckbox,
+    YCheckboxGroup
 }
 
 export default {

@@ -31,7 +31,7 @@
         <y-button>确定</y-button>
       </template>
     </y-table>
-    <y-checkbox v-model="checked">萨嘎</y-checkbox>
+    <y-checkbox v-model="checked">我已阅读相关协议</y-checkbox>
     <y-tag
       v-for="(item, index) in testList"
       :key="item.id"

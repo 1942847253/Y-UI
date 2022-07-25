@@ -1,7 +1,9 @@
 <template>
   <div class="y-checked-content" @click="changeChecked">
-    <input class="checkbox" :id="valueSlot" type="checkbox" :checked="checked" />
-    <div :class="`label`">
+    <span>
+      <input class="checkbox" :id="valueSlot" type="checkbox" :checked="checked"
+    /></span>
+    <div :class="`label ${checked ? 'checked' : ''}`">
       <slot>{{ valueSlot && valueSlot }}</slot>
     </div>
   </div>
@@ -62,15 +64,23 @@ export default defineComponent({
 <style lang="scss" scoped>
 .y-checked-content {
   cursor: pointer;
-  display: flex;
-  margin-right: 8px;
+  display: inline-flex;
+  white-space: nowrap;
+  user-select: none;
+  margin-right: 16px;
+  height: 32px;
   input {
     width: 15px;
     height: 15px;
+    cursor: pointer;
   }
   .label {
     margin-left: 3px;
     font-size: 14px;
+    margin-top: 0.5px;
+  }
+  .checked {
+    color: #2a6ef8;
   }
 }
 </style>

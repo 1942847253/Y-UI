@@ -59,8 +59,9 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .y-radio-content {
+  user-select: none;
   display: flex;
-  margin-right: 7px;
+  margin-right: 15px;
   cursor: pointer;
   .checked {
     color: #2a6ef8;

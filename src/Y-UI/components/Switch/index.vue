@@ -5,7 +5,7 @@
       type="checkbox"
       :checked="modelValue"
       @input="switchChange"
-      :class="`switch-component ${getSwitchSize('')} ${disable && 'switch-disable'}`"
+      :class="`switch-component ${getSwitchSize(size)} ${disable && 'switch-disable'}`"
     />
   </div>
 </template>
@@ -21,6 +21,10 @@ export default defineComponent({
     disable: {
       type: Boolean,
       default: false,
+    },
+    size: {
+      type: String,
+      default: "default",
     },
   },
   emits: ["update:modelValue"],

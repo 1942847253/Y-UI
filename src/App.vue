@@ -26,7 +26,7 @@
           >删除</y-button
         >
         <y-button type="info">编辑</y-button>
-        <y-button type="warning">提醒</y-button>
+        <y-button type="warning" @click="showMessageBox">提醒</y-button>
         <y-button :disabled="true" t>锁定</y-button>
         <y-button>确定</y-button>
       </template>
@@ -42,7 +42,13 @@
       {{ item.name }}</y-tag
     >
   </div>
-  <div class="box">
+
+  <y-button type="primary" @click="showPromptMessageBox">showPromptMessageBox </y-button>
+
+  <y-button type="success" @click="showMessageBox">showMessageBox</y-button>
+
+  <y-button @click="showConfirmMessageBox">showConfirmMessageBox</y-button>
+  <!-- <div class="box">
     <y-rotation
       :autoplay="true"
       :duration="3000"
@@ -54,7 +60,7 @@
         <img :src="item.path" alt="" />
       </y-rotation-item>
     </y-rotation>
-  </div>
+  </div> -->
   <y-radio-group v-model="value1" :options="radioList" @change="onChange"></y-radio-group>
   <y-checkbox-group v-model="value2" :options="radioList" />
 </template>
@@ -62,8 +68,9 @@
 <script setup lang="ts">
 import { ref, watch, onMounted } from "vue";
 import { options, picList } from "./baseData/selector";
-
+import { YMessageBox } from "./Y-UI";
 onMounted(() => {});
+
 const checked = ref(true);
 const value1 = ref(2);
 const value2 = ref([1, 2]);
@@ -120,6 +127,50 @@ watch(
 
 const onChange = (item) => {
   console.log(item);
+};
+
+const showMessageBox = () => {
+  YMessageBox({
+    title: "提示",
+    cancelBtnText: "取消",
+    confirmBtnText: "确认",
+    content: "当前学生是傻逼",
+    mantleClose: true,
+  })
+    .then(() => {})
+    .catch(() => {});
+};
+
+const showConfirmMessageBox = () => {
+  YMessageBox.confirm({
+    showCancelBtn: true,
+    title: "提示",
+    confirmBtnText: "确认",
+    cancelBtnText: "取消",
+    content: "确认删除当前学生吗？",
+  })
+    .then(() => {
+      console.log("resolve");
+    })
+    .catch(() => {
+      console.log("reject");
+    });
+};
+
+const showPromptMessageBox = () => {
+  YMessageBox.prompt({
+    showCancelBtn: true,
+    confirmBtnText: "确认",
+    cancelBtnText: "取消",
+    title: "test",
+    content: "showPromptMessageBox",
+  })
+    .then(() => {
+      console.log("resolve");
+    })
+    .catch(() => {
+      console.log("reject");
+    });
 };
 
 const closeTag = (index) => {
@@ -213,7 +264,15 @@ const editData = ({ index, key, value, text }) => {
 };
 
 const deleteItem = (id) => {
-  tableData.value.tBody = tableData.value.tBody.filter((item) => item.id !== id);
+  YMessageBox({
+    showCancelBtn: true,
+    title: "提示",
+    confirmBtnText: "确认",
+    cancelBtnText: "取消",
+    content: "确认删除当前学生吗？",
+  }).then(() => {
+    tableData.value.tBody = tableData.value.tBody.filter((item) => item.id !== id);
+  });
 };
 </script>
 

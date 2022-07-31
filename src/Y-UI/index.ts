@@ -9,7 +9,12 @@ import YRadio from './components/Radio/index.vue'
 import YRadioGroup from './components/Radio/RadioGroup/RadioGroup.vue'
 import YCheckbox from './components/CheckBoxGroup/CheckBox/CheckBox.vue'
 import YCheckboxGroup from './components/CheckBoxGroup/CheckBoxGroup.vue';
+import YMessageBox from './components/MessageBox/index'
 import { App } from 'vue'
+
+export {
+    YMessageBox
+}
 
 const components = {
     YSelector,

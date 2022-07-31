@@ -57,7 +57,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "../../../assets/icon/iconfont.css";
+@import "../../../iconfont/iconfont.css";
 .selector-input {
   position: relative;
   display: flex;

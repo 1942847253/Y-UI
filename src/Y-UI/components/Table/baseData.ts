@@ -10,3 +10,5 @@ export const initTdStats = (Element) => {
     Element.className = "td-content";
 }
 
+
+

@@ -66,9 +66,10 @@
 </template>
 
 <script setup lang="ts">
+import { YTable, YSwitch } from "./Y-UI";
 import { ref, watch, onMounted } from "vue";
 import { options, picList } from "./baseData/selector";
-import { YMessageBox } from "./Y-UI";
+import { YMessage, YMessageBox } from "./Y-UI";
 onMounted(() => {});
 
 const checked = ref(true);
@@ -130,15 +131,7 @@ const onChange = (item) => {
 };
 
 const showMessageBox = () => {
-  YMessageBox({
-    title: "提示",
-    cancelBtnText: "取消",
-    confirmBtnText: "确认",
-    content: "当前学生是傻逼",
-    mantleClose: true,
-  })
-    .then(() => {})
-    .catch(() => {});
+  YMessage.success({ message: "test" });
 };
 
 const showConfirmMessageBox = () => {

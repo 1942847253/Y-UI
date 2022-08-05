@@ -10,11 +10,25 @@ import YRadioGroup from './components/Radio/RadioGroup/RadioGroup.vue'
 import YCheckbox from './components/CheckBoxGroup/CheckBox/CheckBox.vue'
 import YCheckboxGroup from './components/CheckBoxGroup/CheckBoxGroup.vue';
 import YMessageBox from './components/MessageBox/index'
+import YMessage from './components/Message/index'
 import { App } from 'vue'
 
 export {
-    YMessageBox
+    YMessageBox,
+    YMessage,
+    YSelector,
+    YRotation,
+    YRotationItem,
+    YTable,
+    YTag,
+    YButton,
+    YSwitch,
+    YRadio,
+    YRadioGroup,
+    YCheckbox,
+    YCheckboxGroup
 }
+
 
 const components = {
     YSelector,
@@ -29,6 +43,7 @@ const components = {
     YCheckbox,
     YCheckboxGroup
 }
+
 
 export default {
     install(Vue: App<Element>) {

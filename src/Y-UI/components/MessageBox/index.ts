@@ -1,12 +1,28 @@
-import { options } from './../../../baseData/selector';
 import MessageBoxComponent from './MessageBox.vue';
 import { createApp, watch } from 'vue';
 
+export type TOptions = {
+    title: string,
+    content: string,
+    confirmBtnText?: string,
+    cancelBtnText?: string,
+    showMessageBox?: boolean,
+    showCancelBtn?: boolean,
+    mantleClose?: boolean,
+    field?: string,
+}
+
+
+export interface IMessage {
+    (options: TOptions): Promise<any>,
+    confirm?(options: TOptions): Promise<any>,
+    prompt?(options: TOptions): Promise<any>,
+}
+
 export const fields = ['confirm', 'prompt']
 
-const MessageBox: any = (options) => {
+const MessageBox: IMessage = (options: TOptions) => {
     const MessageBoxApp = createApp(MessageBoxComponent, options);
-
     return new Promise((resolve, reject) => {
         showMessageBox(MessageBoxApp, { resolve, reject });
     })
